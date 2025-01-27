@@ -17,8 +17,7 @@ namespace Poker
     public partial class MenuWindow : Window
     {
         Button btn_join = new Button();
-        Button btn_host = new Button();
-        Button btn_offline = new Button();
+        Button btn_new = new Button();
         Button btn_exit = new Button();
         public MenuWindow()
         {
@@ -26,13 +25,11 @@ namespace Poker
             InitializeComponent();
 
             btn_join.Content = "join game";
-            btn_host.Content = "host game";
-            btn_offline.Content = "play offline";
+            btn_new.Content = "new game";
             btn_exit.Content = "exit";
 
             btn_join.Click += JoinGame;
-            btn_host.Click += HostGame;
-            btn_offline.Click += PlayOffline;
+            btn_new.Click += HostGame;
             btn_exit.Click += Exit;
 
             grd_main.ColumnDefinitions.Add(new ColumnDefinition());
@@ -40,17 +37,14 @@ namespace Poker
             grd_main.RowDefinitions.Add(new RowDefinition());
             grd_main.RowDefinitions.Add(new RowDefinition());
             grd_main.RowDefinitions.Add(new RowDefinition());
-            grd_main.RowDefinitions.Add(new RowDefinition());
 
-            grd_main.Children.Add(btn_offline);
             grd_main.Children.Add(btn_exit);
-            grd_main.Children.Add(btn_host);
+            grd_main.Children.Add(btn_new);
             grd_main.Children.Add(btn_join);
             
             Grid.SetRow(btn_join, 0);
-            Grid.SetRow(btn_offline, 1);
-            Grid.SetRow(btn_host, 2);
-            Grid.SetRow(btn_exit, 3);
+            Grid.SetRow(btn_new, 1);
+            Grid.SetRow(btn_exit, 2);
         }
 
         private void Exit(object sender, RoutedEventArgs e)
