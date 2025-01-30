@@ -46,7 +46,7 @@ namespace Poker
             grd_main.Children.Add(btn_join);
 
             Grid.SetRow(btn_new, 0);
-            Grid.SetRow(btn_join, 1);            
+            Grid.SetRow(btn_join, 1);
             Grid.SetRow(btn_exit, 2);
         }
 
