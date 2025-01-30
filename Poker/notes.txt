@@ -1,0 +1,8 @@
+> table and backgrount different images
+> hearts red, clubs green, diamonds blue, spades black
+
+> table has button to focus menuwindow (open it if its closed)
+
+
+> bots
+    > statistician (bets on above average hands)

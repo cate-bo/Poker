@@ -12,15 +12,18 @@ using System.Windows.Shapes;
 namespace Poker
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MenuWindow.xaml
     /// </summary>
     public partial class MenuWindow : Window
     {
+        //gets focused when menu button is presed in a table window if null new Menuwindow is created and MenuInstance is set to it(in constructor)
+        static MenuWindow MenuInstance;
         Button btn_join = new Button();
         Button btn_new = new Button();
         Button btn_exit = new Button();
         public MenuWindow()
         {
+            MenuInstance = this;
             this.DataContext = this;
             InitializeComponent();
 
@@ -29,7 +32,7 @@ namespace Poker
             btn_exit.Content = "exit";
 
             btn_join.Click += JoinGame;
-            btn_new.Click += HostGame;
+            btn_new.Click += StartGame;
             btn_exit.Click += Exit;
 
             grd_main.ColumnDefinitions.Add(new ColumnDefinition());
@@ -52,14 +55,10 @@ namespace Poker
             this.Close();
         }
 
-        private void PlayOffline(object sender, RoutedEventArgs e)
+        private void StartGame(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
-        }
-
-        private void HostGame(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
+            TableWindow test = new TableWindow();
+            test.Show();
         }
 
         private void JoinGame(object sender, RoutedEventArgs e)
