@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.ComponentModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -17,16 +18,16 @@ namespace Poker
     public partial class MenuWindow : Window
     {
         //gets focused when menu button is presed in a table window if null new Menuwindow is created and MenuInstance is set to it(in constructor)
-        public static MenuWindow ?MenuInstance {  get; set; }
+        
         Button btn_join = new Button();
         Button btn_new = new Button();
         Button btn_exit = new Button();
         public MenuWindow()
         {
-            MenuInstance = this;
+            App.MenuInstance = this;
             this.DataContext = this;
             InitializeComponent();
-            this.Closed += ClosedEventCalled;
+            this.Closing += ClosingEvent;
 
             btn_join.Content = "join game";
             btn_new.Content = "new game";
@@ -51,9 +52,14 @@ namespace Poker
             Grid.SetRow(btn_exit, 2);
         }
 
-        private void ClosedEventCalled(object? sender, EventArgs e)
+        private void ClosingEvent(object? sender, CancelEventArgs e)
         {
-            MenuInstance = null;
+            if(App.Tables.Count > 0)
+            {
+                e.Cancel = true;
+                this.Hide();
+            }
+            
         }
 
         private void Exit(object sender, RoutedEventArgs e)

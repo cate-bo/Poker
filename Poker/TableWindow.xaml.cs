@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,12 +27,14 @@ namespace Poker
         {
             this.DataContext = this;
             InitializeComponent();
+            App.Tables.Add(this);
+            this.Closing += ClosingEvent;
             
 
             //background
             this.Background = imb_background;
             bmi_background.BeginInit();
-            bmi_background.UriSource = new Uri("C:\\Users\\cate\\source\\repos\\Poker\\Poker\\assets\\background.png");
+            bmi_background.UriSource = new Uri(@"C:\Users\cate\source\repos\Poker\Poker\assets\background.png");
             bmi_background.EndInit();
             imb_background.ImageSource = bmi_background;
             imb_background.Stretch = Stretch.UniformToFill;
@@ -49,14 +52,16 @@ namespace Poker
             //Canvas.SetLeft
         }
 
+        private void ClosingEvent(object? sender, CancelEventArgs e)
+        {
+            App.Tables.Remove(this);
+
+        }
+
         private void btn_menu_click(object sender, RoutedEventArgs e)
         {
-            if (MenuWindow.MenuInstance == null)
-            {
-                new MenuWindow();
-            }
-            MenuWindow.MenuInstance.Show();
-            MenuWindow.MenuInstance.Focus();
+            App.MenuInstance.Show();
+            App.MenuInstance.Focus();
         }
     }
 }
