@@ -2,6 +2,9 @@
 > hearts red, clubs green, diamonds blue, spades black
 
 
+    if i have time for it
+
+> page window thing 
 
 > bots
     > statistician (bets based on percentage of hands beaten)

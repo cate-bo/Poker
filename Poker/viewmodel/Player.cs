@@ -8,8 +8,10 @@ namespace Poker.viewmodel
 {
     public class Player
     {
+        public string Name { get; set; }
         public Card Card1 { get; set; }
         public Card Card2 { get; set; }
-        public int Bank { get; set; }
+        public int Chips { get; set; }
+        public int Bet { get; set; }
     }
 }

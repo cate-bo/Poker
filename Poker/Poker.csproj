@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <Folder Include="model\" />
-    <Folder Include="viewmodel\" />
   </ItemGroup>
 
   <ItemGroup>

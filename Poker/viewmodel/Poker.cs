@@ -39,6 +39,7 @@ namespace Poker.viewmodel
     {
         public List<Player> Players { get; } = new List<Player>();
         public int Pot { get; set; }
+        public int BB { get; set; }
 
         //flop
         public Card Card1 { get; set; }
@@ -51,4 +52,6 @@ namespace Poker.viewmodel
         //river
         public Card Card5 { get; set; }
     }
+
+
 }
