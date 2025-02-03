@@ -10,11 +10,16 @@ namespace Poker
     public partial class App : Application
     {
         public static MenuWindow MenuInstance { get; set; }
-        public static List<TableWindow> Tables { get; set; } = new List<TableWindow>();
+        public static List<TableWindow> TableWindows { get; set; } = new List<TableWindow>();
 
+        public static void CloseTableWindow(TableWindow tableWindow)
+        {
+            TableWindows.Remove(tableWindow);
+            if (!MenuInstance.IsVisible) CheckIfNoWindowVisible();
+        }
         public static void CheckIfNoWindowVisible()
         {
-            if(!MenuInstance.IsVisible && Tables.Count < 1)
+            if(!MenuInstance.IsVisible && TableWindows.Count < 1)
             {
                 MenuInstance.Close();
             }

@@ -54,7 +54,7 @@ namespace Poker
 
         private void ClosingEvent(object? sender, CancelEventArgs e)
         {
-            if(App.Tables.Count > 0)
+            if(App.TableWindows.Count > 0)
             {
                 e.Cancel = true;
                 this.Hide();
@@ -72,8 +72,6 @@ namespace Poker
         {
             TableWindow test = new TableWindow();
             test.Show();
-            Test test1 = new Test();
-            test1.Show();
         }
 
         private void JoinGame(object sender, RoutedEventArgs e)

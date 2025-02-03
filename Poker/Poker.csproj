@@ -13,4 +13,8 @@
     <Folder Include="viewmodel\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Page Include="App.xaml" />
+  </ItemGroup>
+
 </Project>

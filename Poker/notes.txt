@@ -4,4 +4,4 @@
 
 
 > bots
-    > statistician (bets on above average hands)
+    > statistician (bets based on percentage of hands beaten)

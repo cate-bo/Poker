@@ -22,11 +22,12 @@ namespace Poker
     {
         BitmapImage bmi_background = new BitmapImage();
         ImageBrush imb_background = new ImageBrush();
-
+        Button btn_menu = new Button();
+        Canvas can_main = new Canvas();
         public TablePage()
         {
             InitializeComponent();
-            
+            this.Content = can_main;
 
             //background
             this.Background = imb_background;
@@ -40,7 +41,19 @@ namespace Poker
             imb_background.AlignmentY = AlignmentY.Top;
             imb_background.Viewport = new Rect(0, 0, 32, 32);
             imb_background.ViewportUnits = BrushMappingMode.Absolute;
-            
+
+            //menu button
+            btn_menu.Click += btn_menu_click;
+            btn_menu.Width = 32;
+            btn_menu.Height = 32;
+            can_main.Children.Add(btn_menu);
+            //Canvas.SetLeft
+        }
+
+        private void btn_menu_click(object sender, RoutedEventArgs e)
+        {
+            App.MenuInstance.Show();
+            App.MenuInstance.Focus();
         }
     }
 }
