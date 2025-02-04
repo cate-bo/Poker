@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Poker.viewmodel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,38 +7,56 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace Poker.view
 {
     internal class PlayerGrid : Grid
     {
+        BitmapImage bmi_character = new BitmapImage();
         Image img_character = new Image();
         Border brd_box = new Border();
-        TextBlock Chips = new TextBlock();
-        TextBlock Name = new TextBlock();
+        TextBlock tbx_chips = new TextBlock();
+        TextBlock tbx_name = new TextBlock();
         Grid grd_box = new Grid();
-        public PlayerGrid()
+        public PlayerGrid(Player player)
         {
+            //character image
+            bmi_character.BeginInit();
+            bmi_character.UriSource = new Uri(@"C:\Users\cate\source\repos\Poker\Poker\view\assets\Player.png");
+            bmi_character.EndInit();
+            img_character.Source = bmi_character; 
             //this grid
             ColumnDefinitions.Add(new ColumnDefinition());
 
             RowDefinitions.Add(new RowDefinition());
             RowDefinitions.Add(new RowDefinition());
-            
+
+            ColumnDefinitions[0].Width = new GridLength(100);
+
+            Children.Add(brd_box);
+            Children.Add(img_character);
+
+            Grid.SetColumn(img_character, 0);
+            Grid.SetColumn(grd_box, 0);
+
+            Grid.SetRow(img_character, 0);
+            Grid.SetRow(grd_box, 1);
+
             //grid box
             grd_box.ColumnDefinitions.Add(new ColumnDefinition());
 
             grd_box.RowDefinitions.Add(new RowDefinition());
             grd_box.RowDefinitions.Add(new RowDefinition());
 
-            grd_box.Children.Add(Name);
-            grd_box.Children.Add(Chips);
+            grd_box.Children.Add(tbx_name);
+            grd_box.Children.Add(tbx_chips);
 
-            Grid.SetColumn(Name, 0);
-            Grid.SetColumn(Chips, 0);
+            Grid.SetColumn(tbx_name, 0);
+            Grid.SetColumn(tbx_chips, 0);
 
-            Grid.SetRow(Name, 0);
-            Grid.SetRow(Chips, 1);
+            Grid.SetRow(tbx_name, 0);
+            Grid.SetRow(tbx_chips, 1);
 
             grd_box.Background = new SolidColorBrush(Color.FromRgb(100,100,100));
 
@@ -47,8 +66,8 @@ namespace Poker.view
             brd_box.Child = grd_box;
             brd_box.SizeChanged += PlayerBox_SizeChanged;
 
-            Chips.Foreground = new SolidColorBrush(Color.FromArgb(255,255,255,255));
-            Name.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+            tbx_chips.Foreground = new SolidColorBrush(Color.FromArgb(255,255,255,255));
+            tbx_name.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
         }
 
         private void PlayerBox_SizeChanged(object sender, SizeChangedEventArgs e)

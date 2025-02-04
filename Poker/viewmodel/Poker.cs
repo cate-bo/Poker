@@ -37,6 +37,7 @@ namespace Poker.viewmodel
     }
     public class Poker
     {
+        public TablePage Table {  get; set; }
         public List<Player> Players { get; } = new List<Player>();
         public int Pot { get; set; }
         public int BB { get; set; }

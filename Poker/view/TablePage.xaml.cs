@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Poker.view;
+using Poker.viewmodel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -48,6 +50,11 @@ namespace Poker
             btn_menu.Height = 32;
             can_main.Children.Add(btn_menu);
             //Canvas.SetLeft
+        }
+
+        public void AddPlayer(Player player)
+        {
+            new PlayerGrid(player);
         }
 
         private void btn_menu_click(object sender, RoutedEventArgs e)
