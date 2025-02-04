@@ -84,7 +84,13 @@ namespace Poker.view
 
         public void DisplayCards(bool showFront)
         {
-
+            if (!showFront)
+            {
+                bmi_card1.BeginInit();
+                bmi_card1.UriSource = new Uri(@"C:\Users\cate\source\repos\Poker\Poker\view\assets\cards\back.png");
+                bmi_card1.EndInit();
+                //TODO
+            }
         }
     }
 }
