@@ -14,19 +14,19 @@ namespace Poker.viewmodel
 
     public enum Values
     {
-        two = 1,
-        three = 2,
-        four = 3,
-        five = 4,
-        six = 5,
-        seven = 6,
-        eight = 7,
-        nine = 8,
-        ten = 9,
-        jack = 10,
-        queen = 11,
-        king = 12,
-        ace = 13
+        two = 2,
+        three = 3,
+        four = 4,
+        five = 5,
+        six = 6,
+        seven = 7,
+        eight = 8,
+        nine = 9,
+        ten = 10,
+        jack = 11,
+        queen = 12,
+        king = 13,
+        ace = 14
     }
     public enum Suits
     {
@@ -35,7 +35,7 @@ namespace Poker.viewmodel
         clubs = 2,
         spades = 3
     }
-    public class Poker
+    public class Game
     {
         public TablePage Table {  get; set; }
         public List<Player> Players { get; } = new List<Player>();
@@ -52,6 +52,11 @@ namespace Poker.viewmodel
 
         //river
         public Card Card5 { get; set; }
+
+        public Game(bool hosting)
+        {
+            Table = new TablePage(this);
+        }
     }
 
 

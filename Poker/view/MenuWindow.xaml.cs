@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Poker.viewmodel;
+using System.ComponentModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -70,8 +71,7 @@ namespace Poker
 
         private void StartGame(object sender, RoutedEventArgs e)
         {
-            TableWindow test = new TableWindow();
-            test.Show();
+            new Game(true);
         }
 
         private void JoinGame(object sender, RoutedEventArgs e)

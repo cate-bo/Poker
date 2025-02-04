@@ -26,10 +26,13 @@ namespace Poker
         ImageBrush imb_background = new ImageBrush();
         Button btn_menu = new Button();
         Canvas can_main = new Canvas();
-        public TablePage()
+        Game _game;
+        public TablePage(Game game)
         {
+            _game = game;
             InitializeComponent();
             this.Content = can_main;
+            new TableWindow(this);
 
             //background
             this.Background = imb_background;

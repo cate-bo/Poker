@@ -21,13 +21,14 @@ namespace Poker
     public partial class TableWindow : Window
     {
 
-        public TableWindow()
+        public TableWindow(TablePage table)
         {
             this.DataContext = this;
             InitializeComponent();
             App.TableWindows.Add(this);
             this.Closing += ClosingEvent;
-            this.Content = new TablePage();
+            this.Content = table;
+            this.Show();
         }
 
         private void ClosingEvent(object? sender, CancelEventArgs e)

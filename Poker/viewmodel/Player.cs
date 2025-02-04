@@ -8,10 +8,17 @@ namespace Poker.viewmodel
 {
     public class Player
     {
+        public bool IsNPC { get; }
         public string Name { get; set; }
         public Card Card1 { get; set; }
         public Card Card2 { get; set; }
         public int Chips { get; set; }
         public int Bet { get; set; }
+
+        public Player(bool isNPC, string name)
+        {
+            IsNPC = isNPC;
+            Name = name;
+        }
     }
 }
