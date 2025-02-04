@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Poker.view;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace Poker.viewmodel
         public Card Card2 { get; set; }
         public int Chips { get; set; }
         public int Bet { get; set; }
+        public PlayerGrid DisplayBox { get; set; }
 
         public Player(bool isNPC, string name)
         {

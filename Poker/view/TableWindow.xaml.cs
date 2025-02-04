@@ -28,6 +28,8 @@ namespace Poker
             App.TableWindows.Add(this);
             this.Closing += ClosingEvent;
             this.Content = table;
+            MinWidth = App.MinTablePageWidth;
+            MinHeight = App.MinTablePageHeight;
             this.Show();
         }
 

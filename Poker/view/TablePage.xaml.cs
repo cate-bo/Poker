@@ -33,6 +33,8 @@ namespace Poker
             InitializeComponent();
             this.Content = can_main;
             new TableWindow(this);
+            MinHeight = 490;
+            MinWidth = 960;
 
             //background
             this.Background = imb_background;

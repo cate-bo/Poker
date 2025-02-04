@@ -11,21 +11,28 @@ using System.Windows.Media.Imaging;
 
 namespace Poker.view
 {
-    internal class PlayerGrid : Grid
+    public class PlayerGrid : Grid
     {
+        BitmapImage bmi_card1 = new BitmapImage();
+        BitmapImage bmi_card2 = new BitmapImage();
+        Image img_card1 = new Image();
+        Image img_card2 = new Image();
         BitmapImage bmi_character = new BitmapImage();
         Image img_character = new Image();
         Border brd_box = new Border();
         TextBlock tbx_chips = new TextBlock();
         TextBlock tbx_name = new TextBlock();
         Grid grd_box = new Grid();
+        Player player;
         public PlayerGrid(Player player)
         {
+            this.player = player;
             //character image
             bmi_character.BeginInit();
             bmi_character.UriSource = new Uri(@"C:\Users\cate\source\repos\Poker\Poker\view\assets\Player.png");
             bmi_character.EndInit();
-            img_character.Source = bmi_character; 
+            img_character.Source = bmi_character;
+            img_character.Width = 100;
             //this grid
             ColumnDefinitions.Add(new ColumnDefinition());
 
@@ -73,6 +80,11 @@ namespace Poker.view
         private void PlayerBox_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             brd_box.CornerRadius = new CornerRadius(brd_box.Height / 2);
+        }
+
+        public void DisplayCards(bool showFront)
+        {
+
         }
     }
 }
