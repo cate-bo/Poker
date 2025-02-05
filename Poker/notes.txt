@@ -2,7 +2,7 @@
 > hearts red(0), diamonds blue(1), clubs green(2), spades black(3)
 > card image name is <value>_<suit>.png (2-14)_(o-4) 2_0.png is two of heats (two = 2 ace = 14 suits as above)
 
-
+> do viewthing in tablepage
 
 
     if i have time for it
