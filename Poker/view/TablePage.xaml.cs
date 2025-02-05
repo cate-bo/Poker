@@ -82,7 +82,7 @@ namespace Poker
 
         public void Setup(bool host)
         {
-            
+            //TODO
         }
     }
 }

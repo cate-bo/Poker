@@ -61,18 +61,24 @@ namespace Poker.viewmodel
         public GameController(bool hosting)
         {
             Table = new TablePage(this);
-            Table.Setup(hosting);
+
+            
             Host = new HostService();
         }
 
-        public void AddPlayer()
+        public void AddPlayer(string Name)
         {
             Me = new Player(false, "cate");
             Players.Add(Me);
             Table.AddPlayer(Me, true);
         }
 
-        
+        public void Setup(bool hosting)
+        {
+            Me = new Player(false, "placeholder");
+            Table.Setup(hosting);
+            //TODO
+        }
     }
 
 
