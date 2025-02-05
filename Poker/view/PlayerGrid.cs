@@ -23,10 +23,10 @@ namespace Poker.view
         TextBlock tbx_chips = new TextBlock();
         TextBlock tbx_name = new TextBlock();
         Grid grd_box = new Grid();
-        Player player;
+        Player _player;
         public PlayerGrid(Player player)
         {
-            this.player = player;
+            this._player = player;
             //character image
             bmi_character.BeginInit();
             bmi_character.UriSource = new Uri(@"C:\Users\cate\source\repos\Poker\Poker\view\assets\Player.png");
@@ -89,7 +89,11 @@ namespace Poker.view
                 bmi_card1.BeginInit();
                 bmi_card1.UriSource = new Uri(@"C:\Users\cate\source\repos\Poker\Poker\view\assets\cards\back.png");
                 bmi_card1.EndInit();
-                //TODO
+                bmi_card2.BeginInit();
+                bmi_card2.UriSource = new Uri(@"C:\Users\cate\source\repos\Poker\Poker\view\assets\cards\back.png");
+                bmi_card2.EndInit();
+                img_card1.Source = bmi_card1;
+                img_card2.Source = bmi_card2;
             }
         }
     }

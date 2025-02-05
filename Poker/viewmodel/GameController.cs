@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Poker.view;
+using Poker.viewmodel.networking;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,13 +37,15 @@ namespace Poker.viewmodel
         clubs = 2,
         spades = 3
     }
-    public class Game
+    public class GameController
     {
         public Player Me { get; set; }
         public TablePage Table {  get; set; }
         public List<Player> Players { get; } = new List<Player>();
         public int Pot { get; set; }
         public int BB { get; set; }
+        public HostService Host { get; set; }
+        public ClientService Client { get; set; }
 
         //flop
         public Card Card1 { get; set; }
@@ -54,10 +58,21 @@ namespace Poker.viewmodel
         //river
         public Card Card5 { get; set; }
 
-        public Game(bool hosting)
+        public GameController(bool hosting)
         {
             Table = new TablePage(this);
+            Table.Setup(hosting);
+            Host = new HostService();
         }
+
+        public void AddPlayer()
+        {
+            Me = new Player(false, "cate");
+            Players.Add(Me);
+            Table.AddPlayer(Me, true);
+        }
+
+        
     }
 
 

@@ -21,6 +21,7 @@ namespace Poker.viewmodel
         {
             IsNPC = isNPC;
             Name = name;
+            DisplayBox = new PlayerGrid(this);
         }
     }
 }

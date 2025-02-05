@@ -26,10 +26,18 @@ namespace Poker
         ImageBrush imb_background = new ImageBrush();
         Button btn_menu = new Button();
         Canvas can_main = new Canvas();
-        Game _game;
-        public TablePage(Game game)
+        GameController _game;
+        List<PlayerGrid> _playerGrids = new List<PlayerGrid>();
+        PlayerGrid _me;
+        //Setupbox
+        Grid grd_setup = new Grid();
+        TextBox tbx_name = new TextBox();
+        TextBox tbx_BB = new TextBox();
+        public TablePage(GameController game)
         {
+            
             _game = game;
+            //this.DataContext = _game;
             InitializeComponent();
             this.Content = can_main;
             new TableWindow(this);
@@ -57,15 +65,24 @@ namespace Poker
             //Canvas.SetLeft
         }
 
-        public void AddPlayer(Player player)
+        public void AddPlayer(Player player, bool me)
         {
-            new PlayerGrid(player);
+            can_main.Children.Add(player.DisplayBox);
+            if (me)
+            {
+                _me = player.DisplayBox;
+            }
         }
 
         private void btn_menu_click(object sender, RoutedEventArgs e)
         {
             App.MenuInstance.Show();
             App.MenuInstance.Focus();
+        }
+
+        public void Setup(bool host)
+        {
+            
         }
     }
 }

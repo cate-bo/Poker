@@ -71,7 +71,7 @@ namespace Poker
 
         private void StartGame(object sender, RoutedEventArgs e)
         {
-            new Game(true);
+            new GameController(true);
         }
 
         private void JoinGame(object sender, RoutedEventArgs e)

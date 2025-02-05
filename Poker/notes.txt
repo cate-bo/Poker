@@ -7,7 +7,7 @@
 
     if i have time for it
 
-> page window thing 
+> page window thing (would prolly require a rewrite)
 
 > bots
     > statistician (bets based on percentage of hands beaten)
