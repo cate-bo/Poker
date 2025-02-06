@@ -26,23 +26,40 @@ namespace Poker
         ImageBrush imb_background = new ImageBrush();
         Button btn_menu = new Button();
         Canvas can_main = new Canvas();
+        Viewbox vbx_main = new Viewbox();
         GameController _game;
         List<PlayerGrid> _playerGrids = new List<PlayerGrid>();
         PlayerGrid _me;
         //Setupbox
+        Canvas can_setup = new Canvas();
         Grid grd_setup = new Grid();
+        TextBlock tbl_name = new TextBlock();
         TextBox tbx_name = new TextBox();
+        TextBlock tbl_startingChips = new TextBlock();
+        TextBox tbx_startingChips = new TextBox();
+        TextBlock tbl_BB = new TextBlock();
         TextBox tbx_BB = new TextBox();
+        Button btn_finnishSetup = new Button();
         public TablePage(GameController game)
         {
             
             _game = game;
             //this.DataContext = _game;
             InitializeComponent();
-            this.Content = can_main;
+            this.Content = vbx_main;
+            vbx_main.Child = can_main;
             new TableWindow(this);
-            MinHeight = 490;
-            MinWidth = 960;
+
+            //viewbox stuff
+            vbx_main.Stretch = Stretch.UniformToFill;
+
+            //vbx_main.Height = 490;
+            //vbx_main.Width = 960;
+
+            //canvas
+            can_main.Height = 490;
+            can_main.Width = 960;
+
 
             //background
             this.Background = imb_background;
@@ -62,7 +79,8 @@ namespace Poker
             btn_menu.Width = 32;
             btn_menu.Height = 32;
             can_main.Children.Add(btn_menu);
-            //Canvas.SetLeft
+            Canvas.SetLeft(btn_menu, 50);
+            Canvas.SetTop(btn_menu, 50);
         }
 
         public void AddPlayer(Player player, bool me)
@@ -82,7 +100,76 @@ namespace Poker
 
         public void Setup(bool host)
         {
-            //TODO
+            can_main.Children.Add(can_setup);
+            can_setup.Height = 490;
+            can_setup.Width = 960;
+            can_setup.Background = new SolidColorBrush(Color.FromArgb(160, 0,0,0));
+
+            can_setup.Children.Add(grd_setup);
+            grd_setup.Width = 128;
+            grd_setup.Height = 128;
+
+            grd_setup.ColumnDefinitions.Add(new ColumnDefinition());
+            grd_setup.ColumnDefinitions.Add(new ColumnDefinition());
+
+            grd_setup.RowDefinitions.Add(new RowDefinition());
+            grd_setup.RowDefinitions.Add(new RowDefinition());
+
+
+            grd_setup.Children.Add(tbl_name);
+            grd_setup.Children.Add(tbx_name);
+
+            tbx_name.Height = 20;
+
+            tbl_name.Text = "name:";
+
+            Grid.SetColumn(tbl_name, 0);
+            Grid.SetColumn(tbx_name, 1);
+
+            Grid.SetRow(tbl_name, 0);
+            Grid.SetRow(tbx_name, 0);
+
+            if (host)
+            {
+                grd_setup.RowDefinitions.Add(new RowDefinition());
+                grd_setup.RowDefinitions.Add(new RowDefinition());
+
+                grd_setup.Children.Add(tbl_startingChips);
+                grd_setup.Children.Add(tbx_startingChips);
+                grd_setup.Children.Add(tbl_BB);
+                grd_setup.Children.Add(tbx_BB);
+
+                tbx_BB.Height = 20;
+                tbx_startingChips.Height = 20;
+
+                tbl_BB.Text = "big blind";
+
+                Grid.SetColumn(tbl_BB, 0);
+                Grid.SetColumn(tbx_BB, 1);
+                Grid.SetColumn(tbl_startingChips, 0);
+                Grid.SetColumn(tbx_startingChips, 1);
+
+                Grid.SetRow(tbl_BB, 1);
+                Grid.SetRow(tbx_BB, 1);
+                Grid.SetRow(tbl_startingChips, 2);
+                Grid.SetRow(tbx_startingChips, 2);
+            }
+
+            //finnishsetup button
+            btn_finnishSetup.Click += Btn_finnishSetup_Click;
+            grd_setup.Children.Add(btn_finnishSetup);
+            btn_finnishSetup.Height = 20;
+            Grid.SetColumnSpan(btn_finnishSetup, 2);
+            Grid.SetColumn(btn_finnishSetup, 0);
+            Grid.SetRow(btn_finnishSetup, grd_setup.RowDefinitions.Count - 1);
+
+            Canvas.SetLeft(grd_setup, (can_main.Width / 2) - (grd_setup.Width / 2));
+            
+        }
+
+        private void Btn_finnishSetup_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

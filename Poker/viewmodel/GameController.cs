@@ -39,6 +39,7 @@ namespace Poker.viewmodel
     }
     public class GameController
     {
+        public bool Hosting { get; set; }
         public Player Me { get; set; }
         public TablePage Table {  get; set; }
         public List<Player> Players { get; } = new List<Player>();
@@ -60,10 +61,13 @@ namespace Poker.viewmodel
 
         public GameController(bool hosting)
         {
+            Hosting = hosting;
             Table = new TablePage(this);
-
-            
-            Host = new HostService();
+            Setup(Hosting);
+            if (!Hosting)
+            {
+                Client = new ClientService();
+            }
         }
 
         public void AddPlayer(string Name)
@@ -77,7 +81,11 @@ namespace Poker.viewmodel
         {
             Me = new Player(false, "placeholder");
             Table.Setup(hosting);
-            //TODO
+        }
+
+        public void SubmitSetup(string name, string startingChips, string bigBlind)
+        {
+
         }
     }
 

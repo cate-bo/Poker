@@ -76,7 +76,7 @@ namespace Poker
 
         private void JoinGame(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            new GameController(false);
         }
     }
 }
