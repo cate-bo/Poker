@@ -79,7 +79,7 @@ namespace Poker.view
 
         private void PlayerBox_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            brd_box.CornerRadius = new CornerRadius(brd_box.Height / 2);
+            //brd_box.CornerRadius = new CornerRadius(brd_box.Height / 2);
         }
 
         public void DisplayCards(bool showFront)

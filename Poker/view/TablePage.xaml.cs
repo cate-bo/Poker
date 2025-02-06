@@ -17,19 +17,28 @@ using System.Windows.Shapes;
 
 namespace Poker
 {
+    public struct PlayerPosition
+    {
+        bool left;
+        bool top;
+        double x;
+        double y;
+    }
     /// <summary>
     /// Interaction logic for TablePage.xaml
     /// </summary>
     public partial class TablePage : Page
     {
+        //player positions
+
+
+        //table UI
         BitmapImage bmi_background = new BitmapImage();
         ImageBrush imb_background = new ImageBrush();
         Button btn_menu = new Button();
         Canvas can_main = new Canvas();
         Viewbox vbx_main = new Viewbox();
         GameController _game;
-        List<PlayerGrid> _playerGrids = new List<PlayerGrid>();
-        PlayerGrid _me;
         //Setupbox
         Canvas can_setup = new Canvas();
         Grid grd_setup = new Grid();
@@ -51,7 +60,9 @@ namespace Poker
             new TableWindow(this);
 
             //viewbox stuff
-            vbx_main.Stretch = Stretch.UniformToFill;
+            vbx_main.Stretch = Stretch.Uniform;
+            vbx_main.HorizontalAlignment = HorizontalAlignment.Left;
+            vbx_main.VerticalAlignment = VerticalAlignment.Top;
 
             //vbx_main.Height = 490;
             //vbx_main.Width = 960;
@@ -81,33 +92,15 @@ namespace Poker
             can_main.Children.Add(btn_menu);
             Canvas.SetLeft(btn_menu, 50);
             Canvas.SetTop(btn_menu, 50);
-        }
 
-        public void AddPlayer(Player player, bool me)
-        {
-            can_main.Children.Add(player.DisplayBox);
-            if (me)
-            {
-                _me = player.DisplayBox;
-            }
-        }
-
-        private void btn_menu_click(object sender, RoutedEventArgs e)
-        {
-            App.MenuInstance.Show();
-            App.MenuInstance.Focus();
-        }
-
-        public void Setup(bool host)
-        {
-            can_main.Children.Add(can_setup);
-            can_setup.Height = 490;
-            can_setup.Width = 960;
-            can_setup.Background = new SolidColorBrush(Color.FromArgb(160, 0,0,0));
+            //setup thing
+            can_setup.Height = can_main.Height * 2;
+            can_setup.Width = can_main.Width * 2;
+            can_setup.Background = new SolidColorBrush(Color.FromArgb(160, 0, 0, 0));
 
             can_setup.Children.Add(grd_setup);
-            grd_setup.Width = 128;
-            grd_setup.Height = 128;
+            grd_setup.Width = 300;
+            grd_setup.Height = 300;
 
             grd_setup.ColumnDefinitions.Add(new ColumnDefinition());
             grd_setup.ColumnDefinitions.Add(new ColumnDefinition());
@@ -121,7 +114,12 @@ namespace Poker
 
             tbx_name.Height = 20;
 
-            tbl_name.Text = "name:";
+
+            tbl_name.Text = "name";
+
+            tbl_name.VerticalAlignment = VerticalAlignment.Center;
+
+            tbl_name.Foreground = new SolidColorBrush(Colors.White);
 
             Grid.SetColumn(tbl_name, 0);
             Grid.SetColumn(tbx_name, 1);
@@ -129,7 +127,7 @@ namespace Poker
             Grid.SetRow(tbl_name, 0);
             Grid.SetRow(tbx_name, 0);
 
-            if (host)
+            if (_game.Hosting)
             {
                 grd_setup.RowDefinitions.Add(new RowDefinition());
                 grd_setup.RowDefinitions.Add(new RowDefinition());
@@ -142,7 +140,14 @@ namespace Poker
                 tbx_BB.Height = 20;
                 tbx_startingChips.Height = 20;
 
+                tbl_startingChips.Text = "starting chips";
                 tbl_BB.Text = "big blind";
+
+                tbl_BB.VerticalAlignment = VerticalAlignment.Center;
+                tbl_startingChips.VerticalAlignment = VerticalAlignment.Center;
+
+                tbl_startingChips.Foreground = new SolidColorBrush(Colors.White);
+                tbl_BB.Foreground = new SolidColorBrush(Colors.White);
 
                 Grid.SetColumn(tbl_BB, 0);
                 Grid.SetColumn(tbx_BB, 1);
@@ -164,12 +169,40 @@ namespace Poker
             Grid.SetRow(btn_finnishSetup, grd_setup.RowDefinitions.Count - 1);
 
             Canvas.SetLeft(grd_setup, (can_main.Width / 2) - (grd_setup.Width / 2));
+            Canvas.SetTop(grd_setup, (can_main.Height / 2) - (grd_setup.Height / 2));
+        }
+
+        public void AddPlayerToTable(Player player)
+        {
+            can_main.Children.Add(player.DisplayBox);
+            
+        }
+
+        private void btn_menu_click(object sender, RoutedEventArgs e)
+        {
+            App.MenuInstance.Show();
+            App.MenuInstance.Focus();
+        }
+
+        public void Setup(bool host)
+        {
+            can_main.Children.Add(can_setup);
             
         }
 
         private void Btn_finnishSetup_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            _game.SubmitSetup(tbx_name.Text, tbx_startingChips.Text, tbx_BB.Text);
+        }
+
+        public void CloseSetup()
+        {
+            can_main.Children.Remove(can_setup);
+        }
+
+        public void ArrangePlayers()
+        {
+
         }
     }
 }

@@ -17,10 +17,11 @@ namespace Poker.viewmodel
         public int Bet { get; set; }
         public PlayerGrid DisplayBox { get; set; }
 
-        public Player(bool isNPC, string name)
+        public Player(bool isNPC, string name, int chips)
         {
             IsNPC = isNPC;
             Name = name;
+            Chips = chips;
             DisplayBox = new PlayerGrid(this);
         }
     }

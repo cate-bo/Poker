@@ -43,6 +43,7 @@ namespace Poker.viewmodel
         public Player Me { get; set; }
         public TablePage Table {  get; set; }
         public List<Player> Players { get; } = new List<Player>();
+        public int Startingchips { get; set; }
         public int Pot { get; set; }
         public int BB { get; set; }
         public HostService Host { get; set; }
@@ -63,7 +64,7 @@ namespace Poker.viewmodel
         {
             Hosting = hosting;
             Table = new TablePage(this);
-            Setup(Hosting);
+            Setup();
             if (!Hosting)
             {
                 Client = new ClientService();
@@ -72,20 +73,27 @@ namespace Poker.viewmodel
 
         public void AddPlayer(string Name)
         {
-            Me = new Player(false, "cate");
+            Me = new Player(false, "cate", Startingchips);
             Players.Add(Me);
-            Table.AddPlayer(Me, true);
+            Table.AddPlayerToTable(Me);
         }
 
-        public void Setup(bool hosting)
+        public void Setup()
         {
-            Me = new Player(false, "placeholder");
-            Table.Setup(hosting);
+            Me = new Player(false, "placeholder", Startingchips);
+            Table.Setup(Hosting);
         }
 
         public void SubmitSetup(string name, string startingChips, string bigBlind)
         {
+            BB = int.Parse(bigBlind);
+            Startingchips = int.Parse(startingChips);
+            if (Hosting)
+            {
+                AddPlayer(name);
+            }
 
+            Table.CloseSetup();
         }
     }
 
