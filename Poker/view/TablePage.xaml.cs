@@ -19,17 +19,30 @@ namespace Poker
 {
     public struct CanvasPosition
     {
-        bool left;
-        bool top;
-        double x;
-        double y;
+        public CanvasPosition(bool left, bool top, double x, double y)
+        {
+            Left = left;
+            Top = top;
+            X = x;
+            Y = y;
+        }
+        public bool Left { get; set; }
+        public bool Top { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
     }
 
     public struct PlayerPosition
     {
-        CanvasPosition gridposition;
-        CanvasPosition betposition;
-        CanvasPosition dealerButton;
+        public PlayerPosition(CanvasPosition gridposition, CanvasPosition betposition, CanvasPosition dealerbuttonposition)
+        {
+            Gridposition = gridposition;
+            Betposition = betposition;
+            Dealerbuttonposition = dealerbuttonposition;
+        }
+        public CanvasPosition Gridposition { get; set; }
+        public CanvasPosition Betposition { get; set; }
+        public CanvasPosition Dealerbuttonposition { get; set; }
     }
     /// <summary>
     /// Interaction logic for TablePage.xaml
@@ -37,11 +50,14 @@ namespace Poker
     public partial class TablePage : Page
     {
         //player positions
-        List<PlayerPosition> playerPositions = new List<PlayerPosition>();
+        public static PlayerPosition myPosition = new PlayerPosition();
+        public static List<PlayerPosition> playerPositions = new List<PlayerPosition>();
 
         //table UI
         BitmapImage bmi_background = new BitmapImage();
         ImageBrush imb_background = new ImageBrush();
+        BitmapImage bmi_table = new BitmapImage();
+        Image img_table = new Image();
         Button btn_menu = new Button();
         Canvas can_main = new Canvas();
         Viewbox vbx_main = new Viewbox();
@@ -78,6 +94,12 @@ namespace Poker
             can_main.Height = 490;
             can_main.Width = 960;
 
+            //table
+            bmi_table.BeginInit();
+            bmi_table.UriSource = new Uri(@"C:\Users\cate\source\repos\Poker\Poker\view\assets\table.png");
+            bmi_table.EndInit();
+            img_table.Source = bmi_table;
+            can_main.Children.Add(img_table);
 
             //background
             this.Background = imb_background;
@@ -183,7 +205,7 @@ namespace Poker
         public void AddPlayerToTable(Player player)
         {
             can_main.Children.Add(player.DisplayBox);
-            
+            ArrangePlayers();
         }
 
         private void btn_menu_click(object sender, RoutedEventArgs e)
