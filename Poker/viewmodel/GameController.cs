@@ -41,6 +41,7 @@ namespace Poker.viewmodel
     {
         public bool Hosting { get; set; }
         public Player Me { get; set; }
+        public Player Dealer { get; set; }
         public TablePage Table {  get; set; }
         public List<Player> Players { get; } = new List<Player>();
         public int Startingchips { get; set; }
@@ -71,9 +72,9 @@ namespace Poker.viewmodel
             }
         }
 
-        public void AddPlayer(string Name)
+        public void AddPlayer(string name)
         {
-            Me = new Player(false, "cate", Startingchips);
+            Me = new Player(false, name, Startingchips);
             Players.Add(Me);
             Table.AddPlayerToTable(Me);
         }

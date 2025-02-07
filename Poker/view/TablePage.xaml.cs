@@ -17,12 +17,19 @@ using System.Windows.Shapes;
 
 namespace Poker
 {
-    public struct PlayerPosition
+    public struct CanvasPosition
     {
         bool left;
         bool top;
         double x;
         double y;
+    }
+
+    public struct PlayerPosition
+    {
+        CanvasPosition gridposition;
+        CanvasPosition betposition;
+        CanvasPosition dealerButton;
     }
     /// <summary>
     /// Interaction logic for TablePage.xaml
@@ -30,7 +37,7 @@ namespace Poker
     public partial class TablePage : Page
     {
         //player positions
-
+        List<PlayerPosition> playerPositions = new List<PlayerPosition>();
 
         //table UI
         BitmapImage bmi_background = new BitmapImage();
@@ -154,10 +161,11 @@ namespace Poker
                 Grid.SetColumn(tbl_startingChips, 0);
                 Grid.SetColumn(tbx_startingChips, 1);
 
-                Grid.SetRow(tbl_BB, 1);
-                Grid.SetRow(tbx_BB, 1);
-                Grid.SetRow(tbl_startingChips, 2);
-                Grid.SetRow(tbx_startingChips, 2);
+                
+                Grid.SetRow(tbl_startingChips, 1);
+                Grid.SetRow(tbx_startingChips, 1);
+                Grid.SetRow(tbl_BB, 2);
+                Grid.SetRow(tbx_BB, 2);
             }
 
             //finnishsetup button

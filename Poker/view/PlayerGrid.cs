@@ -20,8 +20,8 @@ namespace Poker.view
         BitmapImage bmi_character = new BitmapImage();
         Image img_character = new Image();
         Border brd_box = new Border();
-        TextBlock tbx_chips = new TextBlock();
-        TextBlock tbx_name = new TextBlock();
+        TextBlock tbl_chips = new TextBlock();
+        TextBlock tbl_name = new TextBlock();
         Grid grd_box = new Grid();
         Player _player;
         public PlayerGrid(Player player)
@@ -39,16 +39,16 @@ namespace Poker.view
             RowDefinitions.Add(new RowDefinition());
             RowDefinitions.Add(new RowDefinition());
 
-            ColumnDefinitions[0].Width = new GridLength(100);
+            ColumnDefinitions[0].Width = new GridLength(150);
 
             Children.Add(brd_box);
             Children.Add(img_character);
 
             Grid.SetColumn(img_character, 0);
-            Grid.SetColumn(grd_box, 0);
+            Grid.SetColumn(brd_box, 0);
 
             Grid.SetRow(img_character, 0);
-            Grid.SetRow(grd_box, 1);
+            Grid.SetRow(brd_box, 1);
 
             //grid box
             grd_box.ColumnDefinitions.Add(new ColumnDefinition());
@@ -56,31 +56,36 @@ namespace Poker.view
             grd_box.RowDefinitions.Add(new RowDefinition());
             grd_box.RowDefinitions.Add(new RowDefinition());
 
-            grd_box.Children.Add(tbx_name);
-            grd_box.Children.Add(tbx_chips);
+            grd_box.Children.Add(tbl_name);
+            grd_box.Children.Add(tbl_chips);
 
-            Grid.SetColumn(tbx_name, 0);
-            Grid.SetColumn(tbx_chips, 0);
+            Grid.SetColumn(tbl_name, 0);
+            Grid.SetColumn(tbl_chips, 0);
 
-            Grid.SetRow(tbx_name, 0);
-            Grid.SetRow(tbx_chips, 1);
+            Grid.SetRow(tbl_name, 0);
+            Grid.SetRow(tbl_chips, 1);
 
-            grd_box.Background = new SolidColorBrush(Color.FromRgb(100,100,100));
+            grd_box.Background = new SolidColorBrush(Color.FromArgb(0,0,0,0));
+            
 
             //border box
             brd_box.BorderBrush = new SolidColorBrush(Color.FromRgb(200,200,200));
+            brd_box.Background = new SolidColorBrush(Color.FromArgb(255, 80, 80, 80));
             brd_box.BorderThickness = new Thickness(5);
             brd_box.Child = grd_box;
-            brd_box.SizeChanged += PlayerBox_SizeChanged;
+            brd_box.CornerRadius = new CornerRadius(20);
 
-            tbx_chips.Foreground = new SolidColorBrush(Color.FromArgb(255,255,255,255));
-            tbx_name.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+            //box content
+            tbl_chips.Foreground = new SolidColorBrush(Color.FromArgb(255,255,255,255));
+            tbl_name.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 255, 255));
+
+            tbl_name.TextAlignment = TextAlignment.Center;
+            tbl_chips.TextAlignment = TextAlignment.Center;
+
+            tbl_name.FontFamily = new FontFamily("Comic Sans MS");
+            tbl_chips.FontFamily = new FontFamily("Comic Sans MS");
         }
 
-        private void PlayerBox_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            //brd_box.CornerRadius = new CornerRadius(brd_box.Height / 2);
-        }
 
         public void DisplayCards(bool showFront)
         {
@@ -95,6 +100,16 @@ namespace Poker.view
                 img_card1.Source = bmi_card1;
                 img_card2.Source = bmi_card2;
             }
+        }
+
+        public void UpdateChipcount()
+        {
+            tbl_chips.Text = _player.Chips.ToString();
+        }
+
+        public void UpdateName()
+        {
+            tbl_name.Text = _player.Name;
         }
     }
 }
