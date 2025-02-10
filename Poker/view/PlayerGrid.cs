@@ -97,9 +97,13 @@ namespace Poker.view
                 bmi_card2.BeginInit();
                 bmi_card2.UriSource = new Uri(@"C:\Users\cate\source\repos\Poker\Poker\view\assets\cards\back.png");
                 bmi_card2.EndInit();
-                img_card1.Source = bmi_card1;
-                img_card2.Source = bmi_card2;
             }
+            else
+            {
+
+            }
+            img_card1.Source = bmi_card1;
+            img_card2.Source = bmi_card2;
         }
 
         public void UpdateChipcount()

@@ -74,14 +74,18 @@ namespace Poker.viewmodel
 
         public void AddPlayer(string name)
         {
-            Me = new Player(false, name, Startingchips);
-            Players.Add(Me);
-            Table.AddPlayerToTable(Me);
+            Player temp = new Player(name, Startingchips);
+            if (Me != null)
+            {
+                Me = temp;
+            }
+                Players.Add(temp);
+                Table.AddPlayerToTable(temp);
         }
 
         public void Setup()
         {
-            Me = new Player(false, "placeholder", Startingchips);
+            //Me = new Player("placeholder", Startingchips);
             Table.Setup(Hosting);
         }
 

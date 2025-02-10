@@ -12,8 +12,8 @@ namespace Poker
         public static MenuWindow MenuInstance { get; set; }
         public static List<TableWindow> TableWindows { get; set; } = new List<TableWindow>();
 
-        public static double MinTablePageWidth { get; set; } = 960;
-        public static double MinTablePageHeight { get; set; } = 490;
+        public static double MinTablePageWidth { get; set; } = 1000;
+        public static double MinTablePageHeight { get; set; } = 500;
 
         public static void CloseTableWindow(TableWindow tableWindow)
         {

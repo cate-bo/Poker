@@ -100,6 +100,10 @@ namespace Poker
             bmi_table.EndInit();
             img_table.Source = bmi_table;
             can_main.Children.Add(img_table);
+            img_table.Height = 360;
+            img_table.Width = 640;
+            Canvas.SetLeft(img_table, 0);
+            Canvas.SetTop(img_table, 0);
 
             //background
             this.Background = imb_background;
@@ -119,8 +123,8 @@ namespace Poker
             btn_menu.Width = 32;
             btn_menu.Height = 32;
             can_main.Children.Add(btn_menu);
-            Canvas.SetLeft(btn_menu, 50);
-            Canvas.SetTop(btn_menu, 50);
+            Canvas.SetLeft(btn_menu, 32);
+            Canvas.SetTop(btn_menu, 32);
 
             //setup thing
             can_setup.Height = can_main.Height * 2;

@@ -9,7 +9,6 @@ namespace Poker.viewmodel
 {
     public class Player
     {
-        public bool IsABot { get; }
         private string _name;
         public string Name
         {
@@ -35,10 +34,9 @@ namespace Poker.viewmodel
         public int Bet { get; set; }
         public PlayerGrid DisplayBox { get; set; }
 
-        public Player(bool isABot, string name, int chips)
+        public Player(string name, int chips)
         {
             DisplayBox = new PlayerGrid(this);
-            IsABot = isABot;
             Name = name;
             Chips = chips;
         }
