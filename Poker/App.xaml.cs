@@ -13,7 +13,7 @@ namespace Poker
         public static List<TableWindow> TableWindows { get; set; } = new List<TableWindow>();
 
         public static double MinTablePageWidth { get; set; } = 1000;
-        public static double MinTablePageHeight { get; set; } = 500;
+        public static double MinTablePageHeight { get; set; } = 600;
 
         public static void CloseTableWindow(TableWindow tableWindow)
         {

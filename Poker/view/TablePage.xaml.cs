@@ -91,8 +91,8 @@ namespace Poker
             //vbx_main.Width = 960;
 
             //canvas
-            can_main.Height = 490;
-            can_main.Width = 960;
+            can_main.Height = 600;
+            can_main.Width = 1000;
 
             //table
             bmi_table.BeginInit();
@@ -102,8 +102,8 @@ namespace Poker
             can_main.Children.Add(img_table);
             img_table.Height = 360;
             img_table.Width = 640;
-            Canvas.SetLeft(img_table, 0);
-            Canvas.SetTop(img_table, 0);
+            Canvas.SetLeft(img_table, (can_main.Width / 2) - (img_table.Width / 2));
+            Canvas.SetTop(img_table, (can_main.Height / 2) - (img_table.Height / 2));
 
             //background
             this.Background = imb_background;
