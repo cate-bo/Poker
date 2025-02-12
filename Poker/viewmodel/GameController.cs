@@ -12,6 +12,12 @@ namespace Poker.viewmodel
     {
         Values value;
         Suits suit;
+
+        public Card(Values _value, Suits _suit)
+        {
+            value = _value;
+            suit = _suit;
+        }
     }
 
     public enum Values
@@ -39,6 +45,7 @@ namespace Poker.viewmodel
     }
     public class GameController
     {
+        public Random rand { get; set; } = new Random();
         public bool Hosting { get; set; }
         public Player Me { get; set; }
         public Player Dealer { get; set; }
@@ -49,6 +56,7 @@ namespace Poker.viewmodel
         public int BB { get; set; }
         public HostService Host { get; set; }
         public ClientService Client { get; set; }
+        public List<Card> DealtCards { get; set; } = new List<Card>();
 
         //flop
         public Card Card1 { get; set; }
@@ -75,7 +83,7 @@ namespace Poker.viewmodel
         public void AddPlayer(string name)
         {
             Player temp = new Player(name, Startingchips);
-            if (Me != null)
+            if (Me == null)
             {
                 Me = temp;
             }
@@ -99,6 +107,24 @@ namespace Poker.viewmodel
             }
 
             Table.CloseSetup();
+        }
+
+        public void StartRound()
+        {
+            DealtCards.Clear();
+            //TODO
+        }
+
+        public Card DealNewCard()
+        {
+            while (true)
+            {
+                Card temp = new Card((Values)rand.Next(2, 15), (Suits)rand.Next(0, 4));
+                if(!DealtCards.Contains(temp))
+                {
+                    return temp;
+                }
+            }
         }
     }
 

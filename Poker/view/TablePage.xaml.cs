@@ -50,7 +50,11 @@ namespace Poker
     public partial class TablePage : Page
     {
         //player positions
-        public static PlayerPosition myPosition = new PlayerPosition();
+        public static PlayerPosition myPosition = new PlayerPosition(
+            new CanvasPosition(true, false, 215, 0),
+            new CanvasPosition(true, false, 215, 0),
+            new CanvasPosition(true, false, 215, 0)
+        );
         public static List<PlayerPosition> playerPositions = new List<PlayerPosition>();
 
         //table UI
@@ -236,7 +240,9 @@ namespace Poker
 
         public void ArrangePlayers()
         {
-
+            //me
+            Canvas.SetLeft(_game.Me.DisplayBox, 400);
+            Canvas.SetBottom(_game.Me.DisplayBox, 0);
         }
     }
 }
