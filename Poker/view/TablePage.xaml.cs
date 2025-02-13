@@ -248,7 +248,14 @@ namespace Poker
             }
 
             //finnishsetup button
-            btn_finnishSetup.Click += Btn_finnishSetup_Click;
+            if (_game.Hosting)
+            {
+                btn_finnishSetup.Click += Btn_finnishSetup_Click_Host;
+            }
+            else
+            {
+                btn_finnishSetup.Click += Btn_finnishSetup_Click_Client;
+            }
             btn_finnishSetup.Content = "letsa go";
             grd_setup.Children.Add(btn_finnishSetup);
             btn_finnishSetup.Height = 20;
@@ -258,6 +265,11 @@ namespace Poker
 
             Canvas.SetLeft(grd_setup, (can_main.Width / 2) - (grd_setup.Width / 2));
             Canvas.SetTop(grd_setup, (can_main.Height / 2) - (grd_setup.Height / 2));
+        }
+
+        private void Btn_finnishSetup_Click_Client(object sender, RoutedEventArgs e)
+        {
+            _game.SubmitClientSetup(tbx_name.Text, tbx_ipAddAndPort.Text);
         }
 
         private void Btn_copyIP_Click(object sender, RoutedEventArgs e)
@@ -283,9 +295,9 @@ namespace Poker
             
         }
 
-        private void Btn_finnishSetup_Click(object sender, RoutedEventArgs e)
+        private void Btn_finnishSetup_Click_Host(object sender, RoutedEventArgs e)
         {
-            _game.SubmitSetup(tbx_name.Text, tbx_startingChips.Text, tbx_BB.Text);
+            _game.SubmitHostSetup(tbx_name.Text, tbx_startingChips.Text, tbx_BB.Text);
         }
 
         public void CloseSetup()

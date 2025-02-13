@@ -25,7 +25,7 @@ namespace Poker.viewmodel.networking
                 }
                 
             }
-            
+            _tcpListener.Start();
         }
     }
 }

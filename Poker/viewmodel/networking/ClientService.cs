@@ -11,7 +11,7 @@ namespace Poker.viewmodel.networking
     {
         private TcpClient _tcpClient = new TcpClient();
 
-        public bool Connect(string address)
+        public bool TryConnect(string address)
         {
             string[] parts = address.Split(':');
             try

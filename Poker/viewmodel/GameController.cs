@@ -102,7 +102,7 @@ namespace Poker.viewmodel
             Table.Setup(Hosting);
         }
 
-        public void SubmitSetup(string name, string startingChips, string bigBlind)
+        public void SubmitHostSetup(string name, string startingChips, string bigBlind)
         {
             BB = int.Parse(bigBlind);
             Startingchips = int.Parse(startingChips);
@@ -112,6 +112,14 @@ namespace Poker.viewmodel
             }
 
             Table.CloseSetup();
+        }
+
+        public void SubmitClientSetup(string name, string ipAndPort)
+        {
+            if (Client.TryConnect(ipAndPort))
+            {
+                AddPlayer(name);
+            }
         }
 
         public void Play()
