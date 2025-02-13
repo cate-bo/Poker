@@ -6,6 +6,8 @@
 
 > playergrid coordinates (doubble x, double y, bool left bool top) (false set right/bottom instead)
 
+> multiple games prolly needs random port for each (keep track of used ports in app.xaml.cs)
+
 
 
     if i have time for it

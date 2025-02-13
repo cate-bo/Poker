@@ -57,6 +57,7 @@ namespace Poker.viewmodel
         public HostService Host { get; set; }
         public ClientService Client { get; set; }
         public List<Card> DealtCards { get; set; } = new List<Card>();
+        public int CurrentBet { get; set; }
 
         //flop
         public Card Card1 { get; set; }
@@ -72,12 +73,16 @@ namespace Poker.viewmodel
         public GameController(bool hosting)
         {
             Hosting = hosting;
-            Table = new TablePage(this);
-            Setup();
             if (!Hosting)
             {
                 Client = new ClientService();
             }
+            else
+            {
+                Host = new HostService();
+            }
+            Table = new TablePage(this);
+            Setup();
         }
 
         public void AddPlayer(string name)
@@ -109,9 +114,40 @@ namespace Poker.viewmodel
             Table.CloseSetup();
         }
 
+        public void Play()
+        {
+            while (!IsGameOver())
+            {
+                StartRound();
+            }
+        } 
+
         public void StartRound()
         {
             DealtCards.Clear();
+            //deal cards to players
+            foreach(Player player in Players)
+            {
+                player.Card1 = DealNewCard();
+                player.Card2 = DealNewCard();
+            }
+            //first round of betting
+            StartBetting();
+            //flop
+            Card1 = DealNewCard();
+            Card2 = DealNewCard();
+            Card3 = DealNewCard();
+            StartBetting();
+            //turn
+            Card4 = DealNewCard();
+            StartBetting();
+            //river
+            Card5 = DealNewCard();
+            StartBetting();
+        }
+
+        public void StartBetting()
+        {
             //TODO
         }
 
@@ -125,6 +161,20 @@ namespace Poker.viewmodel
                     return temp;
                 }
             }
+        }
+
+        public bool IsGameOver()
+        {
+            byte playersStillIn = 0;
+            foreach(Player player in Players)
+            {
+                if(player.Chips > 0)
+                {
+                    playersStillIn++;
+                }
+            }
+            if (playersStillIn > 1) return false;
+            return true;
         }
     }
 

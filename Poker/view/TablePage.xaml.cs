@@ -66,6 +66,9 @@ namespace Poker
         Canvas can_main = new Canvas();
         Viewbox vbx_main = new Viewbox();
         GameController _game;
+        //address stuff
+        TextBlock tbl_ipAddress = new TextBlock();
+        Button btn_copyIP = new Button();
         //Setupbox
         Canvas can_setup = new Canvas();
         Grid grd_setup = new Grid();
@@ -75,6 +78,8 @@ namespace Poker
         TextBox tbx_startingChips = new TextBox();
         TextBlock tbl_BB = new TextBlock();
         TextBox tbx_BB = new TextBox();
+        TextBlock tbl_ipAddAndPort = new TextBlock();
+        TextBox tbx_ipAddAndPort = new TextBox();
         Button btn_finnishSetup = new Button();
         public TablePage(GameController game)
         {
@@ -127,8 +132,34 @@ namespace Poker
             btn_menu.Width = 32;
             btn_menu.Height = 32;
             can_main.Children.Add(btn_menu);
+            btn_menu.Content = "menu";
             Canvas.SetLeft(btn_menu, 32);
             Canvas.SetTop(btn_menu, 32);
+
+            //address stuff
+            if (_game.Hosting)
+            {
+                tbl_ipAddress.Background = new SolidColorBrush(Color.FromRgb(200,200,200));
+                tbl_ipAddress.Foreground = new SolidColorBrush(Color.FromRgb(20,20,20));
+                tbl_ipAddress.Height = 20;
+                tbl_ipAddress.Width = 128;
+                tbl_ipAddress.TextAlignment = TextAlignment.Center;
+                tbl_ipAddress.VerticalAlignment = VerticalAlignment.Center;
+                tbl_ipAddress.FontSize = 12;
+                tbl_ipAddress.FontFamily = new FontFamily("Comic Sans MS");
+                tbl_ipAddress.Text = _game.Host.IPAdd;
+                can_main.Children.Add(tbl_ipAddress);
+                Canvas.SetLeft(tbl_ipAddress, 32);
+                Canvas.SetTop(tbl_ipAddress , 80);
+
+                btn_copyIP.Width = 32;
+                btn_copyIP.Height = 20;
+                btn_copyIP.Content = "copy ip";
+                btn_copyIP.Click += Btn_copyIP_Click;
+                can_main.Children.Add(btn_copyIP);
+                Canvas.SetTop(btn_copyIP, 80);
+                Canvas.SetLeft(btn_copyIP, 160);
+            }
 
             //setup thing
             can_setup.Height = can_main.Height * 2;
@@ -197,9 +228,28 @@ namespace Poker
                 Grid.SetRow(tbl_BB, 2);
                 Grid.SetRow(tbx_BB, 2);
             }
+            else
+            {
+                grd_setup.RowDefinitions.Add(new RowDefinition());
+
+                tbl_ipAddAndPort.Text = "ip address and port";
+                tbl_ipAddAndPort.VerticalAlignment = VerticalAlignment.Center;
+                tbx_ipAddAndPort.Height = 20;
+                tbl_ipAddAndPort.Foreground = new SolidColorBrush(Colors.White);
+
+                grd_setup.Children.Add(tbl_ipAddAndPort);
+                grd_setup.Children.Add(tbx_ipAddAndPort);
+
+                Grid.SetColumn(tbl_ipAddAndPort, 0);
+                Grid.SetColumn(tbx_ipAddAndPort, 1);
+
+                Grid.SetRow(tbx_ipAddAndPort, 1);
+                Grid.SetRow(tbl_ipAddAndPort, 1);
+            }
 
             //finnishsetup button
             btn_finnishSetup.Click += Btn_finnishSetup_Click;
+            btn_finnishSetup.Content = "letsa go";
             grd_setup.Children.Add(btn_finnishSetup);
             btn_finnishSetup.Height = 20;
             Grid.SetColumnSpan(btn_finnishSetup, 2);
@@ -208,6 +258,11 @@ namespace Poker
 
             Canvas.SetLeft(grd_setup, (can_main.Width / 2) - (grd_setup.Width / 2));
             Canvas.SetTop(grd_setup, (can_main.Height / 2) - (grd_setup.Height / 2));
+        }
+
+        private void Btn_copyIP_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(_game.Host.IPAdd.ToString());
         }
 
         public void AddPlayerToTable(Player player)
