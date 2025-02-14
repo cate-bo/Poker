@@ -9,6 +9,7 @@ namespace Poker.viewmodel
 {
     public class Player
     {
+        public bool StillPlaying { get; set; }
         private string _name;
         public string Name
         {

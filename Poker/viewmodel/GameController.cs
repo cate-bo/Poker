@@ -49,6 +49,19 @@ namespace Poker.viewmodel
         public bool Hosting { get; set; }
         public Player Me { get; set; }
         public Player Dealer { get; set; }
+        private Player _activePlayer;
+        public Player ActivePlayer
+        {
+            get
+            {
+                return _activePlayer;
+            }
+            set
+            {
+                _activePlayer = value;
+                UpdateActivePlayer();
+            }
+        }
         public TablePage Table {  get; set; }
         public List<Player> Players { get; } = new List<Player>();
         public int Startingchips { get; set; }
@@ -57,7 +70,7 @@ namespace Poker.viewmodel
         public HostService Host { get; set; }
         public ClientService Client { get; set; }
         public List<Card> DealtCards { get; set; } = new List<Card>();
-        public int CurrentBet { get; set; }
+        public int CurrentMinBet { get; set; }
 
         //flop
         public Card Card1 { get; set; }
@@ -81,6 +94,7 @@ namespace Poker.viewmodel
             {
                 Host = new HostService();
             }
+            Me = new Player("placeholder", -69696969);
             Table = new TablePage(this);
             Setup();
         }
@@ -88,12 +102,16 @@ namespace Poker.viewmodel
         public void AddPlayer(string name)
         {
             Player temp = new Player(name, Startingchips);
-            if (Me == null)
+            Players.Add(temp);
+            Table.AddPlayerToTable(temp);
+        }
+
+        public void UpdateActivePlayer()
+        {
+            if (Hosting)
             {
-                Me = temp;
+
             }
-                Players.Add(temp);
-                Table.AddPlayerToTable(temp);
         }
 
         public void Setup()
@@ -106,12 +124,10 @@ namespace Poker.viewmodel
         {
             BB = int.Parse(bigBlind);
             Startingchips = int.Parse(startingChips);
-            if (Hosting)
-            {
-                AddPlayer(name);
-            }
-
+            AddPlayer(name);
+            Me = Players[0];
             Table.CloseSetup();
+            Table.ArrangePlayers();
         }
 
         public void SubmitClientSetup(string name, string ipAndPort)
@@ -124,39 +140,82 @@ namespace Poker.viewmodel
 
         public void Play()
         {
+            //starting host as dealer
+            ActivePlayer = Me;
+            Dealer = ActivePlayer;
             while (!IsGameOver())
             {
                 StartRound();
             }
-        } 
+        }
 
         public void StartRound()
         {
-            DealtCards.Clear();
+            //set players that are still playing
+            foreach(Player player in Players)
+            {
+                if(player.Chips > 0) player.StillPlaying = true;
+            }
+            //place blind bets and set player after BB as active
+            NextPlayer();
+            PlaceBet(BB / 2);
+            NextPlayer();
+            PlaceBet(BB);
+            NextPlayer();
+
             //deal cards to players
+            DealtCards.Clear();
             foreach(Player player in Players)
             {
                 player.Card1 = DealNewCard();
                 player.Card2 = DealNewCard();
             }
+
+            
             //first round of betting
-            StartBetting();
+            BettingRound();
             //flop
             Card1 = DealNewCard();
             Card2 = DealNewCard();
             Card3 = DealNewCard();
-            StartBetting();
+            BettingRound();
             //turn
             Card4 = DealNewCard();
-            StartBetting();
+            BettingRound();
             //river
             Card5 = DealNewCard();
-            StartBetting();
+            BettingRound();
+            EndRound();
         }
 
-        public void StartBetting()
+        public void EndRound()
         {
             //TODO
+        }
+
+        public void BettingRound()
+        {
+            ////TODO
+            //if (Hosting)
+            //{
+            //    if(ActivePlayer == Me)
+            //    {
+
+            //    }
+            //}
+        }
+
+        public void NextPlayer()
+        {
+            if (Players.IndexOf(ActivePlayer) == Players.Count - 1)
+            {
+                if(Players[0].StillPlaying) ActivePlayer = Players[0];
+            }
+            else
+            {
+                if(Players[Players.IndexOf(ActivePlayer) + 1].StillPlaying) ActivePlayer = Players[Players.IndexOf(ActivePlayer) + 1];
+            }
+
         }
 
         public Card DealNewCard()
@@ -182,6 +241,23 @@ namespace Poker.viewmodel
                 }
             }
             if (playersStillIn > 1) return false;
+            return true;
+        }
+
+        public bool PlaceBet(int amount)
+        {
+            if(amount < CurrentMinBet) return false;
+            if(ActivePlayer.Chips < amount)
+            {
+                ActivePlayer.Bet = ActivePlayer.Chips;
+                ActivePlayer.Chips = 0;
+            }
+            else
+            {
+                ActivePlayer.Bet = amount;
+                ActivePlayer.Chips -= amount;
+                if(amount > CurrentMinBet) CurrentMinBet = amount;
+            }
             return true;
         }
     }

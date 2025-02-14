@@ -129,8 +129,8 @@ namespace Poker
 
             //menu button
             btn_menu.Click += btn_menu_click;
-            btn_menu.Width = 32;
-            btn_menu.Height = 32;
+            btn_menu.Width = 40;
+            btn_menu.Height = 30;
             can_main.Children.Add(btn_menu);
             btn_menu.Content = "menu";
             Canvas.SetLeft(btn_menu, 32);

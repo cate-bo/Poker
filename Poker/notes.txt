@@ -8,7 +8,7 @@
 
 > multiple games prolly needs random port for each (keep track of used ports in app.xaml.cs)
 
-
+> think about when bet cant be matched
 
     if i have time for it
 
