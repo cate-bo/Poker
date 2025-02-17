@@ -8,6 +8,6 @@ namespace Poker.viewmodel
 {
     class Bot : Player
     {
-        public Bot(string name, int chips) : base(name, chips) { }
+        public Bot(string name, int chips, int id) : base(name, chips, id) { }
     }
 }

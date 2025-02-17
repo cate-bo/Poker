@@ -3,6 +3,7 @@ using Poker.viewmodel.networking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -88,20 +89,20 @@ namespace Poker.viewmodel
             Hosting = hosting;
             if (!Hosting)
             {
-                Client = new ClientService();
+                Client = new ClientService(this);
             }
             else
             {
-                Host = new HostService();
+                Host = new HostService(this);
             }
-            Me = new Player("placeholder", -69696969);
+            Me = new Player("placeholder", -69696969, 7777777);
             Table = new TablePage(this);
             Setup();
         }
 
-        public void AddPlayer(string name)
+        public void AddPlayer(string name, int id)
         {
-            Player temp = new Player(name, Startingchips);
+            Player temp = new Player(name, Startingchips, id);
             Players.Add(temp);
             Table.AddPlayerToTable(temp);
         }
@@ -124,7 +125,7 @@ namespace Poker.viewmodel
         {
             BB = int.Parse(bigBlind);
             Startingchips = int.Parse(startingChips);
-            AddPlayer(name);
+            AddPlayer(name, -1);
             Me = Players[0];
             Table.CloseSetup();
             Table.ArrangePlayers();
@@ -134,7 +135,7 @@ namespace Poker.viewmodel
         {
             if (Client.TryConnect(ipAndPort))
             {
-                AddPlayer(name);
+                Client.Sendmessage("1" + name);
             }
         }
 
@@ -259,6 +260,20 @@ namespace Poker.viewmodel
                 if(amount > CurrentMinBet) CurrentMinBet = amount;
             }
             return true;
+        }
+
+        public void JoinAttemt(string name, int ID)
+        {
+            foreach(Player player in Players)
+            {
+                if(player.Name == name)
+                {
+                    Host.Sendmessage(ID, "2");
+                    return;
+                }
+            }
+            AddPlayer(name, ID);
+            Host.Sendmessage(ID, "1" + name);
         }
     }
 

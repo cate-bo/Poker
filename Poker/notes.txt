@@ -8,6 +8,22 @@
 
 > multiple games prolly needs random port for each (keep track of used ports in app.xaml.cs)
 
+
+> netcode:
+    client
+    > 1 trying to join
+    > 2 place bet
+    > 3 fold
+
+    host
+    > 1 join success
+    > 2 join failed
+    > 3 update chips and bet
+    > 4 update pot
+    > 5 udate player cards
+    > 6 update center cards
+
+
 > think about when bet cant be matched
 
     if i have time for it
