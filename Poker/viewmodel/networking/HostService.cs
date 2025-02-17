@@ -48,10 +48,12 @@ namespace Poker.viewmodel.networking
             byte[] buffer = new byte[256];
             int i;
             string message = "";
-            while ((i = stream.ReadAsync(buffer, 0, buffer.Length).Result) != 0)
-            {
-                message += System.Text.Encoding.ASCII.GetString(buffer, 0, i);
-            }
+            //while ((i = stream.ReadAsync(buffer, 0, buffer.Length).Result) != 0)
+            //{
+            //    message += System.Text.Encoding.ASCII.GetString(buffer, 0, i);
+            //}
+            i = stream.ReadAsync(buffer, 0, buffer.Length).Result;
+            message = System.Text.Encoding.ASCII.GetString(buffer, 0, i);
             DecodeMessage(message, ID);
         }
 
