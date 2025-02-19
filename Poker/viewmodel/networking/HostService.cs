@@ -11,10 +11,10 @@ namespace Poker.viewmodel.networking
     public class HostService
     {
         //private List<Socket> _sockets;
-        private TcpListener _tcpListener;
-        private List<TcpClient> _tcpClients = new List<TcpClient>();
-        public GameController Controller { get; set; }
-        public string IPAdd { get; set; }
+        private static TcpListener _tcpListener;
+        private static TcpClient _tcpClient = new TcpClient();
+        public static GameController Controller { get; set; }
+        public static string IPAdd { get; set; }
         public HostService(GameController controller)
         {
             Controller = controller;
@@ -29,35 +29,44 @@ namespace Poker.viewmodel.networking
                 
             }
             _tcpListener.Start();
+            //Thread extrathread = new Thread(HostService.StartOfExtraThread);
+            //extrathread.Start();
             WaitForConnection();
         }
 
-        public async Task WaitForConnection()
+        
+        public static void StartOfExtraThread()
         {
-            TcpClient temp = await _tcpListener.AcceptTcpClientAsync();
-            _tcpClients.Add(temp);
-            await ReadFromClient(temp.GetStream(), _tcpClients.IndexOf(temp));
+            WaitForConnection();
+
         }
 
-        public async Task ReadFromClient(NetworkStream stream, int ID)
+        public static async Task WaitForConnection()
+        {
+            TcpClient temp = await _tcpListener.AcceptTcpClientAsync();
+            _tcpClient = temp;
+            ReadFromClient(temp.GetStream());
+        }
+
+        public static async Task ReadFromClient(NetworkStream stream)
         {
             if(!stream.CanRead || !stream.CanWrite)
             {
                 throw new Exception("aaaaaaaahhhhhhhhhhh");
             }
-            byte[] buffer = new byte[256];
+            byte[] buffer = new byte[1024];
             int i;
             string message = "";
             //while ((i = stream.ReadAsync(buffer, 0, buffer.Length).Result) != 0)
             //{
             //    message += System.Text.Encoding.ASCII.GetString(buffer, 0, i);
             //}
-            i = stream.ReadAsync(buffer, 0, buffer.Length).Result;
+            i = await stream.ReadAsync(buffer, 0, buffer.Length);
             message = System.Text.Encoding.ASCII.GetString(buffer, 0, i);
-            DecodeMessage(message, ID);
+            DecodeMessage(message);
         }
 
-        public void DecodeMessage(string message, int ID)
+        public static void DecodeMessage(string message)
         {
             if (message == null || message.Length < 1) return;
 
@@ -69,15 +78,15 @@ namespace Poker.viewmodel.networking
             }
             switch (messageType)
             {
-                case 1: Controller.JoinAttemt(messageContent, ID); break;
+                case 1: Controller.JoinAttemt(messageContent); break;
                 default: break;
             }
         }
 
-        public void Sendmessage(int recipientID, string message)
+        public void Sendmessage(string message)
         {
             byte[] msg = System.Text.Encoding.ASCII.GetBytes(message);
-            _tcpClients[recipientID].GetStream().Write(msg, 0, msg.Length);
+            _tcpClient.GetStream().Write(msg, 0, msg.Length);
         }
     }
 }

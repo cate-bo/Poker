@@ -6,7 +6,7 @@
 
 > playergrid coordinates (doubble x, double y, bool left bool top) (false set right/bottom instead)
 
-> multiple games prolly needs random port for each (keep track of used ports in app.xaml.cs)
+> multiple players requires unique port for each (keep track of used ports in app.xaml.cs) (not doing that shit)
 
 
 > netcode:
@@ -26,9 +26,3 @@
 
 > think about when bet cant be matched
 
-    if i have time for it
-
-> page window thing (would prolly require a rewrite)
-
-> bots (that trash talk)
-    > statistician (bets based on percentage of hands beaten)

@@ -1,5 +1,6 @@
 ﻿using Poker.view;
 using Poker.viewmodel;
+using Poker.viewmodel.networking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -147,7 +148,7 @@ namespace Poker
                 tbl_ipAddress.VerticalAlignment = VerticalAlignment.Center;
                 tbl_ipAddress.FontSize = 12;
                 tbl_ipAddress.FontFamily = new FontFamily("Comic Sans MS");
-                tbl_ipAddress.Text = _game.Host.IPAdd;
+                tbl_ipAddress.Text = HostService.IPAdd;
                 can_main.Children.Add(tbl_ipAddress);
                 Canvas.SetLeft(tbl_ipAddress, 32);
                 Canvas.SetTop(tbl_ipAddress , 80);
@@ -274,7 +275,7 @@ namespace Poker
 
         private void Btn_copyIP_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.SetText(_game.Host.IPAdd.ToString());
+            Clipboard.SetText(HostService.IPAdd.ToString());
         }
 
         public void AddPlayerToTable(Player player)
@@ -310,6 +311,11 @@ namespace Poker
             //me
             Canvas.SetLeft(_game.Me.DisplayBox, 400);
             Canvas.SetBottom(_game.Me.DisplayBox, 0);
+
+            if (_game.OtherPlayer == null) return;
+            //other
+            Canvas.SetLeft(_game.OtherPlayer.DisplayBox, 400);
+            Canvas.SetTop(_game.OtherPlayer.DisplayBox, 0);
         }
     }
 }

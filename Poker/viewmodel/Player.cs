@@ -11,7 +11,6 @@ namespace Poker.viewmodel
     {
         public bool StillPlaying { get; set; }
         private string _name;
-        public int ID { get; set; }
         public string Name
         {
             get { return _name; }
@@ -36,12 +35,12 @@ namespace Poker.viewmodel
         public int Bet { get; set; }
         public PlayerGrid DisplayBox { get; set; }
 
-        public Player(string name, int chips, int id)
+        public Player(string name, int chips)
         {
             DisplayBox = new PlayerGrid(this);
             Name = name;
             Chips = chips;
-            ID = id;
+            DisplayBox.UpdateName();
         }
     }
 }

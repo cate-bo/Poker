@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Poker.viewmodel
 {
@@ -64,7 +65,7 @@ namespace Poker.viewmodel
             }
         }
         public TablePage Table {  get; set; }
-        public List<Player> Players { get; } = new List<Player>();
+        public Player OtherPlayer { get; set; }
         public int Startingchips { get; set; }
         public int Pot { get; set; }
         public int BB { get; set; }
@@ -95,15 +96,15 @@ namespace Poker.viewmodel
             {
                 Host = new HostService(this);
             }
-            Me = new Player("placeholder", -69696969, 7777777);
+            Me = new Player("placeholder", -69696969);
             Table = new TablePage(this);
             Setup();
         }
 
-        public void AddPlayer(string name, int id)
+        public void AddPlayer(string name)
         {
-            Player temp = new Player(name, Startingchips, id);
-            Players.Add(temp);
+            Player temp = new Player(name, Startingchips);
+            OtherPlayer = temp;
             Table.AddPlayerToTable(temp);
         }
 
@@ -125,8 +126,8 @@ namespace Poker.viewmodel
         {
             BB = int.Parse(bigBlind);
             Startingchips = int.Parse(startingChips);
-            AddPlayer(name, -1);
-            Me = Players[0];
+            Me = new Player(name, Startingchips);
+            Table.AddPlayerToTable(Me);
             Table.CloseSetup();
             Table.ArrangePlayers();
         }
@@ -153,10 +154,10 @@ namespace Poker.viewmodel
         public void StartRound()
         {
             //set players that are still playing
-            foreach(Player player in Players)
-            {
-                if(player.Chips > 0) player.StillPlaying = true;
-            }
+            
+            if(Me.Chips > 0) Me.StillPlaying = true;
+            if (OtherPlayer.Chips > 0) OtherPlayer.StillPlaying = true;
+            
             //place blind bets and set player after BB as active
             NextPlayer();
             PlaceBet(BB / 2);
@@ -166,13 +167,16 @@ namespace Poker.viewmodel
 
             //deal cards to players
             DealtCards.Clear();
-            foreach(Player player in Players)
-            {
-                player.Card1 = DealNewCard();
-                player.Card2 = DealNewCard();
-            }
-
             
+            Me.Card1 = DealNewCard();
+            Me.Card2 = DealNewCard();
+
+            OtherPlayer.Card1 = DealNewCard();
+            OtherPlayer.Card2 = DealNewCard();
+
+
+
+
             //first round of betting
             BettingRound();
             //flop
@@ -208,13 +212,13 @@ namespace Poker.viewmodel
 
         public void NextPlayer()
         {
-            if (Players.IndexOf(ActivePlayer) == Players.Count - 1)
+            if(ActivePlayer == Me)
             {
-                if(Players[0].StillPlaying) ActivePlayer = Players[0];
+                ActivePlayer = OtherPlayer;
             }
             else
             {
-                if(Players[Players.IndexOf(ActivePlayer) + 1].StillPlaying) ActivePlayer = Players[Players.IndexOf(ActivePlayer) + 1];
+                ActivePlayer = Me;
             }
 
         }
@@ -233,16 +237,8 @@ namespace Poker.viewmodel
 
         public bool IsGameOver()
         {
-            byte playersStillIn = 0;
-            foreach(Player player in Players)
-            {
-                if(player.Chips > 0)
-                {
-                    playersStillIn++;
-                }
-            }
-            if (playersStillIn > 1) return false;
-            return true;
+            if(Me.Chips > 0 && OtherPlayer.Chips > 0) return true;
+            return false;
         }
 
         public bool PlaceBet(int amount)
@@ -262,18 +258,30 @@ namespace Poker.viewmodel
             return true;
         }
 
-        public void JoinAttemt(string name, int ID)
+        public void JoinAttemt(string name)
         {
-            foreach(Player player in Players)
-            {
-                if(player.Name == name)
+            
+                if(Me.Name == name)
                 {
-                    Host.Sendmessage(ID, "2");
+                    Host.Sendmessage( "2");
                     return;
                 }
-            }
-            AddPlayer(name, ID);
-            Host.Sendmessage(ID, "1" + name);
+            
+            AddPlayer(name);
+            Host.Sendmessage("1" + Startingchips + ";" + name);
+        }
+
+        public void JoinSuccess(string response)
+        {
+            string[] temp = response.Split(';');
+            string name = temp[1];
+            Startingchips = int.Parse(temp[0]);
+
+            Me = new Player(name, Startingchips);
+
+            //Me = new Player(response, 69);
+
+            Table.AddPlayerToTable(Me);
         }
     }
 

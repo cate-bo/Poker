@@ -84,6 +84,8 @@ namespace Poker.view
 
             tbl_name.FontFamily = new FontFamily("Comic Sans MS");
             tbl_chips.FontFamily = new FontFamily("Comic Sans MS");
+
+            tbl_name.Text = player.Name;
         }
 
 
