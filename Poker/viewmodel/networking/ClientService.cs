@@ -64,13 +64,14 @@ namespace Poker.viewmodel.networking
             switch (messageType)
             {
                 case 1: Controller.JoinSuccess(messageContent); break;
+                case 5: Controller.GetCardsFromHost(messageContent); break;
                 default: break;
             }
         }
 
         public void TryJoin(string name)
         {
-            _stream.Write(System.Text.Encoding.ASCII.GetBytes("1" + name));
+            Sendmessage("1" + name);
         }
 
         public void Sendmessage(string message)

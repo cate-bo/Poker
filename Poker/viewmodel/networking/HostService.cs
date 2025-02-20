@@ -68,14 +68,13 @@ namespace Poker.viewmodel.networking
 
         public static void DecodeMessage(string message)
         {
-            if (message == null || message.Length < 1) return;
+            if (message == null || message.Length < 2) return;
 
             int messageType = int.Parse(message[0].ToString());
             string messageContent = "";
-            if (message.Length < 2)
-            {
-                messageContent = message.Substring(1);
-            }
+
+            messageContent = message.Substring(1);
+
             switch (messageType)
             {
                 case 1: Controller.JoinAttemt(messageContent); break;

@@ -12,13 +12,18 @@ namespace Poker.viewmodel
 {
     public struct Card
     {
-        Values value;
-        Suits suit;
+        public Values value;
+        public Suits suit;
 
         public Card(Values _value, Suits _suit)
         {
             value = _value;
             suit = _suit;
+        }
+
+        public override string ToString()
+        {
+            return (int)value + "_" + (int)suit;
         }
     }
 
@@ -96,7 +101,7 @@ namespace Poker.viewmodel
             {
                 Host = new HostService(this);
             }
-            Me = new Player("placeholder", -69696969);
+            //Me = new Player("placeholder", -69696969);
             Table = new TablePage(this);
             Setup();
         }
@@ -136,7 +141,7 @@ namespace Poker.viewmodel
         {
             if (Client.TryConnect(ipAndPort))
             {
-                Client.Sendmessage("1" + name);
+                Client.TryJoin(name);
             }
         }
 
@@ -174,7 +179,9 @@ namespace Poker.viewmodel
             OtherPlayer.Card1 = DealNewCard();
             OtherPlayer.Card2 = DealNewCard();
 
-
+            Me.DisplayBox.DisplayCards(true);
+            OtherPlayer.DisplayBox.DisplayCards(false);
+            //Host.Sendmessage("5" + OtherPlayer.Card1.ToString() + ";" + OtherPlayer.Card2.ToString());
 
 
             //first round of betting
@@ -237,8 +244,8 @@ namespace Poker.viewmodel
 
         public bool IsGameOver()
         {
-            if(Me.Chips > 0 && OtherPlayer.Chips > 0) return true;
-            return false;
+            if(Me.Chips > 0 && OtherPlayer.Chips > 0) return false;
+            return true;
         }
 
         public bool PlaceBet(int amount)
@@ -268,7 +275,8 @@ namespace Poker.viewmodel
                 }
             
             AddPlayer(name);
-            Host.Sendmessage("1" + Startingchips + ";" + name);
+            Host.Sendmessage("1" + Startingchips + ";" + name + ";" + Me.Name);
+            Play();
         }
 
         public void JoinSuccess(string response)
@@ -277,11 +285,26 @@ namespace Poker.viewmodel
             string name = temp[1];
             Startingchips = int.Parse(temp[0]);
 
+            OtherPlayer = new Player(temp[2],Startingchips);
             Me = new Player(name, Startingchips);
 
             //Me = new Player(response, 69);
 
             Table.AddPlayerToTable(Me);
+            Table.AddPlayerToTable(OtherPlayer);
+            Table.CloseSetup();
+        }
+
+        public void GetCardsFromHost(string messageContent)
+        {
+            string[] temp = messageContent.Split(";");
+            string[] card1 = temp[0].Split("_");
+            string[] card2 = temp[1].Split("_");
+            Me.Card1 = new Card((Values)int.Parse(card1[0]),(Suits)int.Parse(card1[1]));
+            Me.Card2 = new Card((Values)int.Parse(card2[0]),(Suits)int.Parse(card2[1]));
+
+            Me.DisplayBox.DisplayCards(true);
+            OtherPlayer.DisplayBox.DisplayCards(false);
         }
     }
 

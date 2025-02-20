@@ -102,10 +102,38 @@ namespace Poker.view
             }
             else
             {
-
+                bmi_card1.BeginInit();
+                bmi_card1.UriSource = new Uri(@"C:\Users\cate\source\repos\Poker\Poker\view\assets\cards\" + (((int)_player.Card1.value)).ToString() + "_" + (((int)_player.Card1.suit)).ToString() + ".png");
+                bmi_card1.EndInit();
+                bmi_card2.BeginInit();
+                bmi_card2.UriSource = new Uri(@"C:\Users\cate\source\repos\Poker\Poker\view\assets\cards\" + (((int)_player.Card2.value)).ToString() + "_" + (((int)_player.Card2.suit)).ToString() + ".png");
+                bmi_card2.EndInit();
             }
             img_card1.Source = bmi_card1;
             img_card2.Source = bmi_card2;
+            img_card1.Width = 20;
+            img_card2.Width = 20;
+
+            img_card1.Margin = new Thickness(20, 70, 0, 0);
+            img_card2.Margin = new Thickness(0, 70, 20, 0);
+
+            if (this.Children.Contains(img_card1))
+            {
+                this.Children.Remove(img_card1);
+                this.Children.Remove(img_card2);
+            }
+
+            this.Children.Add(img_card1);
+            this.Children.Add(img_card2);
+
+            this.Children.Add(img_card1);
+            this.Children.Add(img_card2);
+
+            Grid.SetColumn(img_card1, 0);
+            Grid.SetColumn(img_card2, 0);
+
+            Grid.SetRow(img_card1 , 0);
+            Grid.SetRow(img_card2 , 0);
         }
 
         public void UpdateChipcount()

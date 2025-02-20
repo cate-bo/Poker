@@ -10,6 +10,8 @@
 
 
 > netcode:
+    > message must be at least 2 characters(including messagetype)
+
     client
     > 1 trying to join
     > 2 place bet
@@ -20,8 +22,9 @@
     > 2 join failed
     > 3 update chips and bet
     > 4 update pot
-    > 5 udate player cards
+    > 5 update clients cards
     > 6 update center cards
+    > 7 update hosts cards
 
 
 > think about when bet cant be matched
