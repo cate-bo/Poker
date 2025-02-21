@@ -126,9 +126,6 @@ namespace Poker.view
             this.Children.Add(img_card1);
             this.Children.Add(img_card2);
 
-            this.Children.Add(img_card1);
-            this.Children.Add(img_card2);
-
             Grid.SetColumn(img_card1, 0);
             Grid.SetColumn(img_card2, 0);
 

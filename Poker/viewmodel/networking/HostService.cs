@@ -45,7 +45,7 @@ namespace Poker.viewmodel.networking
         {
             TcpClient temp = await _tcpListener.AcceptTcpClientAsync();
             _tcpClient = temp;
-            ReadFromClient(temp.GetStream());
+            await ReadFromClient(temp.GetStream());
         }
 
         public static async Task ReadFromClient(NetworkStream stream)
@@ -78,6 +78,7 @@ namespace Poker.viewmodel.networking
             switch (messageType)
             {
                 case 1: Controller.JoinAttemt(messageContent); break;
+                case 2: break;
                 default: break;
             }
         }

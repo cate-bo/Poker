@@ -66,6 +66,8 @@ namespace Poker
         Button btn_menu = new Button();
         Canvas can_main = new Canvas();
         Viewbox vbx_main = new Viewbox();
+        Button btn_bet = new Button();
+        TextBox tbx_bet = new TextBox();
         GameController _game;
         //address stuff
         TextBlock tbl_ipAddress = new TextBlock();
@@ -136,6 +138,28 @@ namespace Poker
             btn_menu.Content = "menu";
             Canvas.SetLeft(btn_menu, 32);
             Canvas.SetTop(btn_menu, 32);
+
+            //betting stuff
+            btn_bet.Width = 30;
+            btn_bet.Height = 20;
+            can_main.Children.Add(btn_bet);
+            btn_bet.Content = "bet";
+            Canvas.SetBottom(btn_bet, 40);
+            Canvas.SetLeft(btn_bet, 200);
+            tbx_bet.Height = 20;
+            tbx_bet.Width = 100;
+            can_main.Children.Add(tbx_bet);
+            Canvas.SetBottom(tbx_bet, 40);
+            Canvas.SetLeft(tbx_bet, 100);
+
+            if (_game.Hosting)
+            {
+                btn_bet.Click += Btn_bet_Click_Host;
+            }
+            else
+            {
+                btn_bet.Click += Btn_bet_Click_Client;
+            }
 
             //address stuff
             if (_game.Hosting)
@@ -266,6 +290,28 @@ namespace Poker
 
             Canvas.SetLeft(grd_setup, (can_main.Width / 2) - (grd_setup.Width / 2));
             Canvas.SetTop(grd_setup, (can_main.Height / 2) - (grd_setup.Height / 2));
+        }
+
+        private void Btn_bet_Click_Client(object sender, RoutedEventArgs e)
+        {
+            int temp = 0;
+            try
+            {
+                temp = int.Parse(tbx_bet.Text);
+            }
+            catch (Exception ex) { }
+            _game.SubmitBet(temp);
+        }
+
+        private void Btn_bet_Click_Host(object sender, RoutedEventArgs e)
+        {
+            int temp = 0;
+            try
+            {
+                temp = int.Parse(tbx_bet.Text);
+            }
+            catch (Exception ex) { }
+            _game.PlaceBet(temp);
         }
 
         private void Btn_finnishSetup_Click_Client(object sender, RoutedEventArgs e)

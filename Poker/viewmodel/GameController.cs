@@ -181,9 +181,9 @@ namespace Poker.viewmodel
 
             Me.DisplayBox.DisplayCards(true);
             OtherPlayer.DisplayBox.DisplayCards(false);
-            //Host.Sendmessage("5" + OtherPlayer.Card1.ToString() + ";" + OtherPlayer.Card2.ToString());
+            Host.Sendmessage("5" + OtherPlayer.Card1.ToString() + ";" + OtherPlayer.Card2.ToString());
 
-
+            
             //first round of betting
             BettingRound();
             //flop
@@ -207,14 +207,14 @@ namespace Poker.viewmodel
 
         public void BettingRound()
         {
-            ////TODO
-            //if (Hosting)
-            //{
-            //    if(ActivePlayer == Me)
-            //    {
+            //TODO
+            
+        }
 
-            //    }
-            //}
+        public void SubmitBet(int amount)
+        {
+            if (amount < 1) return;
+            Client.Sendmessage("2" +  amount);
         }
 
         public void NextPlayer()
@@ -246,6 +246,11 @@ namespace Poker.viewmodel
         {
             if(Me.Chips > 0 && OtherPlayer.Chips > 0) return false;
             return true;
+        }
+
+        public void GetBetFromClient(string bet)
+        {
+
         }
 
         public bool PlaceBet(int amount)
